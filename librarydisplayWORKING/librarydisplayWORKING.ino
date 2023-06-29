@@ -30,11 +30,6 @@ const char* APIurl = "https://api-metoffice.apiconnect.ibmcloud.com/v0/forecasts
 const char* accesskey = "ist_ianAvJO129YcntUonQFr0RXU289WelB8";
 const char* bucketkey = "FE4J9P3CHYS6";
 
-//----------const integers idfk tbh-----------------------
-float Temperature;
-float Humidity;
-float HeatIndex;
-
 void setup() 
 {
 // init serial
@@ -78,30 +73,33 @@ https.begin(*client, APIurl);
 Serial.print("[HTTPS] GET...\n");
 https.addHeader("X-IBM-Client-Id", clientId);
 https.addHeader("X-IBM-Client-Secret", clientSecret);
-int httpCode = https.GET();
-if (httpCode > 0) {
-    String payload = https.getString();
-    DynamicJsonDocument doc(49152);
-    DeserializationError error = deserializeJson(doc, payload);
-    if (error) {
-      Serial.print(F("deserializeJson() failed: "));
-      Serial.println(error.f_str());
-//return;
-    } else {
-      float Temperature = doc["features"][0]["properties"]["timeSeries"][2]["screenTemperature"];
-      float Humidity = doc["features"][0]["properties"]["timeSeries"][2]["screenRelativeHumidity"];
-      float HeatIndex = doc["features"][0]["properties"]["timeSeries"][2]["feelsLikeTemperature"];
-      Serial.print(F("Outside temperature: "));
-      Serial.print(Temperature);
-      Serial.print(F(" | Outside humidity: "));
-      Serial.print(Humidity);
-      Serial.print(F(" | Ambient temperature: "));
-      Serial.println(HeatIndex);
-      // TODO: Handle LED control based on the API values
-    }
-  } else {
-    Serial.println(F("Error on API request"));
-  }
+https.GET();
+String payload = https.getString();
+
+//Parse response
+DynamicJsonDocument doc(49152); //memory is made to be used :))
+DeserializationError error = deserializeJson(doc, payload);
+
+  // Test if parsing succeeds
+  if (error) {
+    Serial.print(F("deserializeJson() failed: "));
+    Serial.println(error.f_str());
+    return;
+  } 
+
+//fetch and store values
+ float Temperature = doc["features"][0]["properties"]["timeSeries"][2]["screenTemperature"];
+ float Humidity = doc["features"][0]["properties"]["timeSeries"][2]["screenRelativeHumidity"];
+ float HeatIndex = doc["features"][0]["properties"]["timeSeries"][2]["feelsLikeTemperature"];
+ 
+//print values
+  Serial.print(F("Outside temperature: ")); 
+  Serial.print(Temperature); 
+  Serial.print(F(" | Outside humidity: "));
+  Serial.print(Humidity);
+  Serial.print(F(" | Ambient temperature: "));
+  Serial.print(HeatIndex);
+  Serial.println();
 
   //////////////////////////
  // 2. Obtain DHT values //
@@ -139,7 +137,7 @@ if (httpCode > 0) {
 
 /*uhhh its gonna be Temperature - t ... kinda weird*/
 
-    int displayTemp = t - Temperature;
+   float displayTemp = t - Temperature;
       Serial.print(F("displayTemp = "));
       Serial.print(displayTemp);
       Serial.print(F("°C"));
@@ -147,13 +145,13 @@ if (httpCode > 0) {
     //DHT temperature - met office screen air temperature
     //later can change to calculated heat index - met office feels like temperature
 
-   int displayHumidity = h - Humidity;
+  float displayHumidity = h - Humidity;
    Serial.print(F("displayHumidity = "));
    Serial.print(displayHumidity);
    Serial.print(F("%"));
    Serial.println();
 
-   int indexDifference = hic - HeatIndex;
+   float indexDifference = hic - HeatIndex;
    Serial.print(F("Ambient temperature difference = "));
    Serial.print(indexDifference);
    Serial.print(F("°C"));
@@ -191,29 +189,39 @@ if (httpCode > 0) {
 /////////////////////////////////////////
 
 /* initial state stuff*/
+HTTPClient ask;
+  String url = "https://groker.init.st/api/events?accessKey=";
+  url += accesskey;
+  url += "&bucketKey=";
+  url += bucketkey;
+  url += "&temperature=";
+  url += t;
+  url += "&humidity=";
+  url += h;
+  url += "&heatIndex=";
+  url += hic;
+  url += "&outsideTemp=";
+  url += Temperature;
+  url += "&outsideHumidity=";
+  url += Humidity;
+  url += "&outsideHeatIndex=";
+  url += HeatIndex;
 
 
-  String url = "https://groker.init.st/api/events?accessKey=" + String(accesskey) +
-               "&bucketKey=" + String(bucketkey) +
-               "&temperature=" + String(t) +
-               "&humidity=" + String(h) +
-               "&heatIndex=" + String(hic) +
-               "&outsideTemp=" + String(Temperature) +
-               "&outsideHumidity=" + String(Humidity) +
-               "&outsideHeatIndex=" + String(HeatIndex);
+
 
 //sent values to initial state via url
   Serial.print(F("requesting created URL: code "));
   // ask.begin;
-  https.begin(url); //Specify the URL
+  ask.begin(url.c_str());
   
   //Check for the returning code
-  int dashboardhttpCode = https.GET();       
+  int httpCode = ask.GET();       
   
-  Serial.print(dashboardhttpCode);
+  Serial.print(httpCode);
    
-  if (dashboardhttpCode > 0) { 
-      String payload = https.getString();
+  if (httpCode > 0) { 
+      String payload = ask.getString();
       Serial.println();
       Serial.println("values sent");
   } else {
@@ -224,7 +232,7 @@ if (httpCode > 0) {
       leds[18] = CRGB (200, 150, 150);  
       FastLED.show();
   }
- // UNCOMMENT IF ERROR https.end(); //End 
+  ask.end(); //End 
 
 /*end of sending to initial state*/
      Serial.println("request URL ended");
