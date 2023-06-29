@@ -191,16 +191,22 @@ if (httpCode > 0) {
 /////////////////////////////////////////
 
 /* initial state stuff*/
-
-
-  String url = "https://groker.init.st/api/events?accessKey=" + String(accesskey) +
-               "&bucketKey=" + String(bucketkey) +
-               "&temperature=" + String(t) +
-               "&humidity=" + String(h) +
-               "&heatIndex=" + String(hic) +
-               "&outsideTemp=" + String(Temperature) +
-               "&outsideHumidity=" + String(Humidity) +
-               "&outsideHeatIndex=" + String(HeatIndex);
+  String url = "https://groker.init.st/api/events?accessKey=";
+  url += accesskey;
+  url += "&bucketKey=";
+  url += bucketkey;
+  url += "&temperature=";
+  url += t;
+  url += "&humidity=";
+  url += h;
+  url += "&heatIndex=";
+  url += hic;
+  url += "&outsideTemp=";
+  url += Temperature;
+  url += "&outsideHumidity=";
+  url += Humidity;
+  url += "&outsideHeatIndex=";
+  url += HeatIndex;
 
 //sent values to initial state via url
   Serial.print(F("requesting created URL: code "));

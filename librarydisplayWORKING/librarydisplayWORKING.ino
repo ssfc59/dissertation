@@ -17,18 +17,7 @@ CRGB leds[NUM_LEDS];    //Instantiate RGB LED
 #define DHTTYPE DHT22
 DHT dht(DHTPIN, DHTTYPE);
 
-//-------------WiFi settings-----------------------------
-const char* ssid = "CE-Hub-Student";
-const char* password = "casa-ce-gagarin-public-service";
-
-//-------------API user settings--------------------------
-const char* clientId = "7338eda7ea694cad61cee72f9408af6f";
-const char* clientSecret = "402e2616c73769757358630e92924062";
-const char* APIurl = "https://api-metoffice.apiconnect.ibmcloud.com/v0/forecasts/point/hourly?excludeParameterMetadata=true&includeLocationName=true&latitude=51.5427233252536&longitude=0.004183041568396564";
-
-//-----------Initial State user settings------------------
-const char* accesskey = "ist_ianAvJO129YcntUonQFr0RXU289WelB8";
-const char* bucketkey = "FE4J9P3CHYS6";
+#include "arduino_secrets.h";
 
 void setup() 
 {
@@ -73,7 +62,9 @@ https.begin(*client, APIurl);
 Serial.print("[HTTPS] GET...\n");
 https.addHeader("X-IBM-Client-Id", clientId);
 https.addHeader("X-IBM-Client-Secret", clientSecret);
-https.GET();
+int httpCode = https.GET();
+
+if (httpCode > 0) {
 String payload = https.getString();
 
 //Parse response
@@ -137,7 +128,7 @@ DeserializationError error = deserializeJson(doc, payload);
 
 /*uhhh its gonna be Temperature - t ... kinda weird*/
 
-   float displayTemp = t - Temperature;
+   int displayTemp = t - Temperature;
       Serial.print(F("displayTemp = "));
       Serial.print(displayTemp);
       Serial.print(F("°C"));
@@ -145,13 +136,13 @@ DeserializationError error = deserializeJson(doc, payload);
     //DHT temperature - met office screen air temperature
     //later can change to calculated heat index - met office feels like temperature
 
-  float displayHumidity = h - Humidity;
+  int displayHumidity = h - Humidity;
    Serial.print(F("displayHumidity = "));
    Serial.print(displayHumidity);
    Serial.print(F("%"));
    Serial.println();
 
-   float indexDifference = hic - HeatIndex;
+   int indexDifference = hic - HeatIndex;
    Serial.print(F("Ambient temperature difference = "));
    Serial.print(indexDifference);
    Serial.print(F("°C"));
@@ -189,7 +180,7 @@ DeserializationError error = deserializeJson(doc, payload);
 /////////////////////////////////////////
 
 /* initial state stuff*/
-HTTPClient ask;
+//HTTPClient ask;
   String url = "https://groker.init.st/api/events?accessKey=";
   url += accesskey;
   url += "&bucketKey=";
@@ -208,20 +199,17 @@ HTTPClient ask;
   url += HeatIndex;
 
 
-
-
 //sent values to initial state via url
   Serial.print(F("requesting created URL: code "));
-  // ask.begin;
-  ask.begin(url.c_str());
+  https.begin(url.c_str());
   
   //Check for the returning code
-  int httpCode = ask.GET();       
+  int serverhttpCode = https.GET();       
   
-  Serial.print(httpCode);
+  Serial.print(serverhttpCode);
    
-  if (httpCode > 0) { 
-      String payload = ask.getString();
+  if (serverhttpCode > 0) { 
+      String payload = https.getString();
       Serial.println();
       Serial.println("values sent");
   } else {
@@ -232,8 +220,11 @@ HTTPClient ask;
       leds[18] = CRGB (200, 150, 150);  
       FastLED.show();
   }
-  ask.end(); //End 
-
+  https.end(); //End 
+}
+else {
+    Serial.println(F("Error on API request"));
+  }
 /*end of sending to initial state*/
      Serial.println("request URL ended");
      Serial.println("HTTP request ended");

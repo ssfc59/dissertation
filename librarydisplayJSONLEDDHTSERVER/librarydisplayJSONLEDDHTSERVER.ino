@@ -17,12 +17,6 @@ CRGB leds[NUM_LEDS];    //Instantiate RGB LED
 #define DHTTYPE DHT22
 DHT dht(DHTPIN, DHTTYPE);
 
-
-//----------const integers idfk tbh-----------------------
-float Temperature;
-float Humidity;
-float HeatIndex;
-
 #include "arduino_secrets.h";
 
 void setup() 
