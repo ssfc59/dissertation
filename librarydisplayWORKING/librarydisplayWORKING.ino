@@ -187,7 +187,6 @@ DeserializationError error = deserializeJson(doc, payload);
 /////////////////////////////////////////
 
 /* initial state stuff*/
-//HTTPClient ask;
   String url = "https://groker.init.st/api/events?accessKey=";
   url += accesskey;
   url += "&bucketKey=";
@@ -208,7 +207,7 @@ DeserializationError error = deserializeJson(doc, payload);
 
 //sent values to initial state via url
   Serial.print(F("requesting created URL: code "));
-  https.begin(url.c_str());
+  https.begin(*client,url.c_str());
   
   //Check for the returning code
   int serverhttpCode = https.GET();       
@@ -220,7 +219,7 @@ DeserializationError error = deserializeJson(doc, payload);
       Serial.println();
       Serial.println("values sent");
   } else {
-      Serial.print( https.errorToString(serverhttpCode) );
+      Serial.print( https.errorToString(serverhttpCode).c_str() );
       Serial.println("Error on HTTP request");
       Serial.println("Debug or refresh");
       FastLED.clear();
@@ -232,13 +231,14 @@ DeserializationError error = deserializeJson(doc, payload);
   https.end(); //End 
 }
 else {
+  Serial.printf("[HTTPS] GET... failed, error: %s\n", https.errorToString(httpCode).c_str());
     Serial.println(F("Error on API request"));
   }
 /*end of sending to initial state*/
      Serial.println("request URL ended");
      Serial.println("HTTP request ended");
      Serial.println("waiting 2 min");
- https.end(); 
+// https.end(); 
  delay(120000);
   //delay for HTTPS request.... eerm hopefully it will not break PLSSSS it didnt yay
 }
