@@ -40,9 +40,14 @@ void setup()
   Serial.print("Connecting to WiFi ..");
   while (WiFi.status() != WL_CONNECTED) {
     Serial.print('.');
+      for (int i = 0; i < NUM_LEDS; i++) {
+    leds[i]= CRGB (255, 0, 0);
+  }
     delay(1000);
   }
+  FastLED.clear();
   Serial.println(WiFi.localIP());
+  
 }
 
 void loop () {
@@ -158,12 +163,14 @@ DeserializationError error = deserializeJson(doc, payload);
   
 
  if ((displayTemp > 10) && (displayTemp <= 16)) {
+  FastLED.clear();
   leds[8] = CRGB (200, 200, 200);
   leds[9] = CRGB (200, 200, 200);
   FastLED.show();
   Serial.println(F("lights up"));
   }
   else{
+    FastLED.clear();
     for (int i = 8; i <= 9; i++){
     leds[i] = CRGB(random(0,255),random(0,255),random(0,255));
     FastLED.show();
@@ -213,8 +220,10 @@ DeserializationError error = deserializeJson(doc, payload);
       Serial.println();
       Serial.println("values sent");
   } else {
+      Serial.print( https.errorToString(serverhttpCode) );
       Serial.println("Error on HTTP request");
       Serial.println("Debug or refresh");
+      FastLED.clear();
       leds[16] = CRGB (200, 150, 150);
       leds[17] = CRGB (200, 150, 150);
       leds[18] = CRGB (200, 150, 150);  
