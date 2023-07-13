@@ -1,5 +1,5 @@
 #include <FastLED.h>
-#define NUM_LEDS 54     //Number of RGB LED beads
+#define NUM_LEDS 48     //Number of RGB LED beads
 #define DATA_PIN D8    //The pin for controlling RGB LED
 #define LED_TYPE WS2812B    //RGB LED strip type
 CRGB leds[NUM_LEDS];    //Instantiate RGB LED
@@ -16,13 +16,21 @@ void loop() {
   int display = areaHumidity - libHumidity;
   //display = 16!
   Serial.println(display);
-  for (int i = 0; i < NUM_LEDS; i++) {
-    leds[i]= CRGB (255, 255, 255);
-  }
- 
-  FastLED.show();
-  Serial.println("ok");
-  delay(1000);
+
+
+
+        for (int i =41 ; i <= 43; i++) {
+    leds[i] = CRGB (255, 255, 255);
+    FastLED.show();
+    }
+
+    //28 36 less
+//40- 43 lights up 45+ rn
+
+  delay(5000);
+
+}
+
 /*
    for (int i = 7; i <= 9; i++) {
     leds[i] = CRGB (100, 100, 100);
@@ -34,8 +42,13 @@ void loop() {
       FastLED.show();
       delay(500);
   }
+
+    for (int i = 0; i < NUM_LEDS; i++) {
+    leds[i]= CRGB (255, 255, 255);
+  }
+ 
   */
-}
+
 /*
   leds[0] = CRGB::Red;     //LED shows red light
   FastLED.show();
