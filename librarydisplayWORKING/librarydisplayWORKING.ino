@@ -4,6 +4,12 @@
 #include <WiFiClientSecure.h>
 #include <HTTPClient.h>
 
+//ezTime library
+#include <ezTime.h>
+Timezone myTimezone;
+int startHour = 8;    // Start hour (24-hour format)
+int endHour = 20;
+
 // LEDS
 #include <FastLED.h>
 #define NUM_LEDS 48     //Number of RGB LED beads
@@ -47,7 +53,8 @@ void setup()
   }
   FastLED.clear();
   Serial.println(WiFi.localIP());
-  
+    waitForSync();
+myTimezone.setPosix("GMT0BST,M3.5.0/1,M10.5.0");
 }
 
 void loop () {
@@ -55,6 +62,12 @@ void loop () {
  // 1. Make secured Get Request //
 /////////////////////////////////
 
+
+  int currentHour = myTimezone.hour();
+ Serial.println("Current Hour is ");
+ Serial.print(currentHour);
+ Serial.println(":00");
+  if (currentHour >= startHour && currentHour < endHour) {
 WiFiClientSecure *client = new WiFiClientSecure;
 // set secure client without certificate
 client->setInsecure();
@@ -67,9 +80,14 @@ https.begin(*client, APIurl);
 Serial.print("[HTTPS] GET...\n");
 https.addHeader("X-IBM-Client-Id", clientId);
 https.addHeader("X-IBM-Client-Secret", clientSecret);
+https.setTimeout(5000);
 int httpCode = https.GET();
 
-if (httpCode > 0) {
+if (httpCode <= 0) {
+  Serial.printf("[HTTPS] GET... failed, error: %s\n", https.errorToString(httpCode).c_str());
+    Serial.println(F("Error on API request"));
+  }
+else {
 String payload = https.getString();
 
 //Parse response
@@ -208,7 +226,8 @@ DeserializationError error = deserializeJson(doc, payload);
 //sent values to initial state via url
   Serial.print(F("requesting created URL: code "));
   https.begin(*client,url.c_str());
-  
+
+  https.setTimeout(5000);
   //Check for the returning code
   int serverhttpCode = https.GET();       
   
@@ -229,11 +248,8 @@ DeserializationError error = deserializeJson(doc, payload);
       FastLED.show();
   }
   https.end(); //End 
-}
-else {
-  Serial.printf("[HTTPS] GET... failed, error: %s\n", https.errorToString(httpCode).c_str());
-    Serial.println(F("Error on API request"));
-  }
+} //AW Suggestion: else should be first by reversing the if statement, because it is much shorter
+
 /*end of sending to initial state*/
      Serial.println("request URL ended");
      Serial.println("HTTP request ended");
@@ -241,4 +257,5 @@ else {
 // https.end(); 
  delay(120000);
   //delay for HTTPS request.... eerm hopefully it will not break PLSSSS it didnt yay
+  }
 }
