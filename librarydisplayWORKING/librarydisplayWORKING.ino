@@ -173,7 +173,8 @@ if (tempdisplay <= 0) {
     }
     }
     else if (tempdisplay > 0) {
-       for (int i = 109; i <= 122; i++) {
+    //WARMER INSIDE THE LIBRARY
+       for (int i = 109; i <= 120; i++) {
     leds[i] = CRGB (255, 255, 255);
     FastLED.show();
     }
@@ -245,7 +246,7 @@ switch (tempdisplay){
 
    case -1:
    case 1:
-     for (int i = 184; i <= 186; i++) {
+     for (int i = 183; i <= 186; i++) {
     leds[i] = CRGB (255, 255, 255);
     FastLED.show();
     }
@@ -325,7 +326,7 @@ switch (tempdisplay){
      case -4 ... -1:
      case 0:
      case 1 ... 4:
-     for (int i = 60; i <= 63 ; i++) {
+     for (int i = 60; i <= 62; i++) {
     leds[i] = CRGB (255, 255, 255);
     FastLED.show();
     }
