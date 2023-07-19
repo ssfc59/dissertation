@@ -1,5 +1,5 @@
 #include <FastLED.h>
-#define NUM_LEDS 192     //Number of RGB LED beads
+#define NUM_LEDS 191     //Number of RGB LED beads
 #define DATA_PIN D8    //The pin for controlling RGB LED
 #define LED_TYPE WS2812B    //RGB LED strip type
 CRGB leds[NUM_LEDS];    //Instantiate RGB LED
@@ -15,10 +15,17 @@ void setup() {
 }
 
 void loop() {
-  int display = libHumidity - areaHumidity;
-  int tempdisplay = libTemp - areaTemp;
+  int humiditydisplay = libHumidity - areaHumidity;
+  Serial.print(F("humiditydisplay = "));
+      Serial.print(humiditydisplay);
+      Serial.print(F("°C"));
+      Serial.println();
 
-  Serial.println(display);
+  int tempdisplay = libTemp - areaTemp;
+      Serial.print(F("tempdisplay = "));
+      Serial.print(tempdisplay);
+      Serial.print(F("°C"));
+      Serial.println();
 
   if (tempdisplay <= 0) {
     //COOLER INSIDE THE LIBRARY
@@ -66,13 +73,13 @@ switch (tempdisplay){
     }
     break; //end case light up 8
 
-     case -50 ... -9:
+    case -50 ... -9:
     case 9 ... 50:
      for (int i = 148; i <= 151; i++) {
     leds[i] = CRGB (255, 255, 255);
     FastLED.show();
     }
-    break; //end case light up 8
+    break; //end case light up 9+
 
    case -4:
    case 4:
@@ -111,7 +118,7 @@ switch (tempdisplay){
     leds[i] = CRGB (255, 255, 255);
     FastLED.show();
     }
-    break; //end case light up 1
+    break; //end case light up 0
 
    default:
       for(int i = 0; i < NUM_LEDS; i++) {
@@ -121,14 +128,14 @@ switch (tempdisplay){
       Serial.print("Sensor error");
   }
   
- if (display <= 0) {
+ if (humiditydisplay <= 0) {
   //LESS HUMID
    for (int i = 13; i <= 19; i++) {
     leds[i] = CRGB (255, 255, 255);
     FastLED.show();
     }
  }
-   else if (display > 0){
+   else if (humiditydisplay > 0){
     //MORE HUMID
      for (int i = 13; i <= 19; i++) {
     leds[i] = CRGB (255, 255, 255);
@@ -136,14 +143,14 @@ switch (tempdisplay){
     }
    }
      
-    switch (display){
+    switch (humiditydisplay){
     case -100 ... -45:
     case 45 ... -100:
      for (int i = 32; i <= 35; i++) {
     leds[i] = CRGB (255, 255, 255);
     FastLED.show();
     }
-    break; //end case light up 45 
+    break; //end case light up 45+ 
 
    case -44 ... -40:
    case 40 ... 44:
@@ -225,9 +232,7 @@ switch (tempdisplay){
       FastLED.show();
   }
       Serial.print("Sensor error");
-      } //switch display
+      } //switch humiditydisplay
 
  delay(5000);
 }
-
-  //leds[0] = CRGB(random(0,255),random(0,255),random(0,255));    // LED shows a randomly mixed color
