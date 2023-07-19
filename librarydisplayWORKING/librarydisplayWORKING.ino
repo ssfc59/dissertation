@@ -164,7 +164,7 @@ DeserializationError error = deserializeJson(doc, payload);
   ////////////////////////////////////////////
  //  4. Light up corresponding LED lights  //
 ////////////////////////////////////////////
-
+ FastLED.clear();
 if (tempdisplay <= 0) {
     //COOLER INSIDE THE LIBRARY
        for (int i = 92; i <= 102; i++) {
