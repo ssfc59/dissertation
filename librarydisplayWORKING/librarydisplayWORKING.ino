@@ -37,8 +37,8 @@ void setup()
 //init DHT
   dht.begin();
   //should I wake it up for a few more seconds?
-   Serial.println("wake DHT up for 10 seconds");
-   delay(10000);
+   Serial.println("wake DHT up for 5 seconds");
+   delay(5000);
   
  //init WiFi
   WiFi.mode(WIFI_STA);
@@ -180,6 +180,45 @@ if (tempdisplay <= 0) {
     }
       }
 switch (tempdisplay){
+   case 0:
+     for (int i = 189; i <= 191; i++) {
+    leds[i] = CRGB (255, 255, 255);
+    FastLED.show();
+    }
+    break; //end case light up 0
+    
+   case -1:
+   case 1:
+     for (int i = 183; i <= 186; i++) {
+    leds[i] = CRGB (255, 255, 255);
+    FastLED.show();
+    }
+    break; //end case light up 1
+
+   case -2:
+   case 2:
+     for (int i = 179; i <= 181; i++) {
+    leds[i] = CRGB (255, 255, 255);
+    FastLED.show();
+    }
+    break; //end case light up 2
+
+   case -3:
+   case 3:
+     for (int i = 174; i <= 176; i++) {
+    leds[i] = CRGB (255, 255, 255);
+    FastLED.show();
+    }
+    break; //end case light up 3
+ 
+   case -4:
+   case 4:
+     for (int i = 169; i <= 170; i++) {
+    leds[i] = CRGB (255, 255, 255);
+    FastLED.show();
+    }
+    break; //end case light up 4  
+    
     case -5:
     case 5:
      for (int i = 128; i <= 130; i++) {
@@ -220,45 +259,6 @@ switch (tempdisplay){
     }
     break; //end case light up 9+
 
-   case -4:
-   case 4:
-     for (int i = 169; i <= 170; i++) {
-    leds[i] = CRGB (255, 255, 255);
-    FastLED.show();
-    }
-    break; //end case light up 4
-
-    case -3:
-   case 3:
-     for (int i = 174; i <= 176; i++) {
-    leds[i] = CRGB (255, 255, 255);
-    FastLED.show();
-    }
-    break; //end case light up 3
-    
-   case -2:
-   case 2:
-     for (int i = 179; i <= 181; i++) {
-    leds[i] = CRGB (255, 255, 255);
-    FastLED.show();
-    }
-    break; //end case light up 2
-
-   case -1:
-   case 1:
-     for (int i = 183; i <= 186; i++) {
-    leds[i] = CRGB (255, 255, 255);
-    FastLED.show();
-    }
-    break; //end case light up 1
-
-   case 0:
-     for (int i = 189; i <= 191; i++) {
-    leds[i] = CRGB (255, 255, 255);
-    FastLED.show();
-    }
-    break; //end case light up 0
-
    default:
       for(int i = 0; i < NUM_LEDS; i++) {
       leds[i] = CRGB(100,100,0); //yellow
@@ -266,7 +266,10 @@ switch (tempdisplay){
   }
       Serial.print("Sensor error");
   }
-  
+
+
+
+
  if (humiditydisplay <= 0) {
   //LESS HUMID
    for (int i = 13; i <= 19; i++) {
@@ -276,57 +279,17 @@ switch (tempdisplay){
  }
    else if (humiditydisplay > 0){
     //MORE HUMID
-     for (int i = 13; i <= 19; i++) {
+     for (int i = 1; i <= 10; i++) {
     leds[i] = CRGB (255, 255, 255);
     FastLED.show();
     }
    }
      
     switch (humiditydisplay){
-    case -100 ... -45:
-    case 45 ... -100:
-     for (int i = 32; i <= 35; i++) {
-    leds[i] = CRGB (255, 255, 255);
-    FastLED.show();
-    }
-    break; //end case light up 45+ 
-
-   case -44 ... -40:
-   case 40 ... 44:
-     for (int i = 38; i <= 41; i++) {
-    leds[i] = CRGB (255, 255, 255);
-    FastLED.show();
-    }
-    break; //end case light up 40
-
-   case -39 ... -35:
-   case 35 ... 39:
-     for (int i = 42; i <= 45; i++) {
-    leds[i] = CRGB (255, 255, 255);
-    FastLED.show();
-    }
-    break; //end case light up 35
-    
-    case -34 ... -30:
-    case 30 ... 34:
-     for (int i = 46; i <= 50; i++) {
-    leds[i] = CRGB (255, 255, 255);
-    FastLED.show();
-    }
-    break; //end case light up 30
-
-    case -29 ... -25:
-    case 25 ... 29:
-     for (int i = 51; i <= 54; i++) {
-    leds[i] = CRGB (255, 255, 255);
-    FastLED.show();
-    }
-    break; //end case light up 25
-
      case -4 ... -1:
      case 0:
      case 1 ... 4:
-     for (int i = 60; i <= 62; i++) {
+     for (int i = 60; i <= 61; i++) {
     leds[i] = CRGB (255, 255, 255);
     FastLED.show();
     }
@@ -334,13 +297,13 @@ switch (tempdisplay){
 
     case -9 ...-5:
     case 5 ... 9:
-     for (int i = 66; i <= 69; i++) {
+     for (int i = 65; i <= 66; i++) {
     leds[i] = CRGB (255, 255, 255);
     FastLED.show();
     }
     break; //end case light up 5
 
-      case -14 ...-10:
+    case -14 ...-10:
     case 10 ... 14:
      for (int i = 70; i <= 72; i++) {
     leds[i] = CRGB (255, 255, 255);
@@ -363,7 +326,47 @@ switch (tempdisplay){
     FastLED.show();
     }
     break; //end case light up 20
+
+    case -29 ... -25:
+    case 25 ... 29:
+     for (int i = 51; i <= 54; i++) {
+    leds[i] = CRGB (255, 255, 255);
+    FastLED.show();
+    }
+    break; //end case light up 25
+
+    case -34 ... -30:
+    case 30 ... 34:
+     for (int i = 46; i <= 50; i++) {
+    leds[i] = CRGB (255, 255, 255);
+    FastLED.show();
+    }
+    break; //end case light up 30
+
+   case -39 ... -35:
+   case 35 ... 39:
+     for (int i = 42; i <= 45; i++) {
+    leds[i] = CRGB (255, 255, 255);
+    FastLED.show();
+    }
+    break; //end case light up 35
        
+   case -44 ... -40:
+   case 40 ... 44:
+     for (int i = 38; i <= 41; i++) {
+    leds[i] = CRGB (255, 255, 255);
+    FastLED.show();
+    }
+    break; //end case light up 40
+
+    case -100 ... -45:
+    case 45 ... -100:
+     for (int i = 32; i <= 35; i++) {
+    leds[i] = CRGB (255, 255, 255);
+    FastLED.show();
+    }
+    break; //end case light up 45+ 
+    
     default:
       for(int i = 0; i < NUM_LEDS; i++) {
       leds[i] = CRGB(100,100,0); //yellow
@@ -373,9 +376,9 @@ switch (tempdisplay){
       } //switch humiditydisplay
   
 
-  ////////////////////////////////////////////
- //  5. send all values to initial state   //
-////////////////////////////////////////////
+  //////////////////////////////////////////
+ //  5. send all values to initial state //
+//////////////////////////////////////////
 
   String url = "https://groker.init.st/api/events?accessKey=";
   url += accesskey;
@@ -420,8 +423,7 @@ switch (tempdisplay){
       FastLED.show();
   }
   https.end(); //End 
-} //AW Suggestion: else should be first by reversing the if statement, because it is much shorter
-
+} 
 /*end of sending to initial state*/
      Serial.println("request URL ended");
      Serial.println("HTTP request ended");
