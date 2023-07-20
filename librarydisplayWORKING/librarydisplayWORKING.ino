@@ -74,8 +74,6 @@ client->setInsecure();
 //create an HTTPClient instance
 HTTPClient https;
 
-///AW suggestion: nest all of this in a more restrictive if statement (time wise)
-//that do be making sense tho
 https.begin(*client, APIurl);
 Serial.print("[HTTPS] GET...\n");
 https.addHeader("X-IBM-Client-Id", clientId);
@@ -129,7 +127,7 @@ DeserializationError error = deserializeJson(doc, payload);
     // Check if any reads failed and exit early (to try again).
     if (isnan(h) || isnan(t)|| isnan(hic)) {
     Serial.println(F("Failed to read from DHT sensor!"));
-    Serial.println(F("Giving myself 2 minutes to debug..."));
+    Serial.println(F("2 minutes to debug..."));
      delay(120000);
     return;
   }
@@ -267,9 +265,6 @@ switch (tempdisplay){
       Serial.print("Sensor error");
   }
 
-
-
-
  if (humiditydisplay <= 0) {
   //LESS HUMID
    for (int i = 13; i <= 19; i++) {
@@ -375,7 +370,6 @@ switch (tempdisplay){
       Serial.print("Sensor error");
       } //switch humiditydisplay
   
-
   //////////////////////////////////////////
  //  5. send all values to initial state //
 //////////////////////////////////////////
@@ -412,16 +406,14 @@ switch (tempdisplay){
       String payload = https.getString();
       Serial.println();
       Serial.println("values sent");
-  } else {
+  } 
+  else {
       Serial.print( https.errorToString(serverhttpCode).c_str() );
       Serial.println("Error on HTTP request");
       Serial.println("Debug or refresh");
       FastLED.clear();
-      leds[16] = CRGB (200, 150, 150);
-      leds[17] = CRGB (200, 150, 150);
-      leds[18] = CRGB (200, 150, 150);  
-      FastLED.show();
-  }
+    
+  } //big else
   https.end(); //End 
 } 
 /*end of sending to initial state*/
