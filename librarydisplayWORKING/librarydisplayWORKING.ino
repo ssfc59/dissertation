@@ -12,7 +12,7 @@ int endHour = 20;
 
 // LEDS
 #include <FastLED.h>
-#define NUM_LEDS 191     //Number of RGB LED beads
+#define NUM_LEDS 192     //Number of RGB LED beads
 #define DATA_PIN D8    //The pin for controlling RGB LED
 #define LED_TYPE WS2812B    //RGB LED strip type
 CRGB leds[NUM_LEDS];    //Instantiate RGB LED
@@ -179,7 +179,7 @@ if (tempdisplay <= 0) {
       }
 switch (tempdisplay){
    case 0:
-     for (int i = 189; i <= 191; i++) {
+     for (int i = 188; i <= 192; i++) {
     leds[i] = CRGB (255, 255, 255);
     FastLED.show();
     }
@@ -219,7 +219,7 @@ switch (tempdisplay){
     
     case -5:
     case 5:
-     for (int i = 128; i <= 130; i++) {
+     for (int i = 128; i <= 132; i++) {
     leds[i] = CRGB (255, 255, 255);
     FastLED.show();
     }
@@ -284,7 +284,7 @@ switch (tempdisplay){
      case -4 ... -1:
      case 0:
      case 1 ... 4:
-     for (int i = 60; i <= 61; i++) {
+     for (int i = 60; i <= 63; i++) {
     leds[i] = CRGB (255, 255, 255);
     FastLED.show();
     }
@@ -292,7 +292,7 @@ switch (tempdisplay){
 
     case -9 ...-5:
     case 5 ... 9:
-     for (int i = 65; i <= 66; i++) {
+     for (int i = 65; i <= 67; i++) {
     leds[i] = CRGB (255, 255, 255);
     FastLED.show();
     }
@@ -308,7 +308,7 @@ switch (tempdisplay){
 
     case -19 ...-15:
     case 15 ... 19:
-     for (int i = 75; i <= 78; i++) {
+     for (int i = 75; i <= 77; i++) {
     leds[i] = CRGB (255, 255, 255);
     FastLED.show();
     }
@@ -324,7 +324,7 @@ switch (tempdisplay){
 
     case -29 ... -25:
     case 25 ... 29:
-     for (int i = 51; i <= 54; i++) {
+     for (int i = 52; i <= 54; i++) {
     leds[i] = CRGB (255, 255, 255);
     FastLED.show();
     }
@@ -332,7 +332,7 @@ switch (tempdisplay){
 
     case -34 ... -30:
     case 30 ... 34:
-     for (int i = 46; i <= 50; i++) {
+     for (int i = 46; i <= 49; i++) {
     leds[i] = CRGB (255, 255, 255);
     FastLED.show();
     }
@@ -348,15 +348,15 @@ switch (tempdisplay){
        
    case -44 ... -40:
    case 40 ... 44:
-     for (int i = 38; i <= 41; i++) {
+     for (int i = 38; i <= 40; i++) {
     leds[i] = CRGB (255, 255, 255);
     FastLED.show();
     }
     break; //end case light up 40
 
     case -100 ... -45:
-    case 45 ... -100:
-     for (int i = 32; i <= 35; i++) {
+    case 45 ... 100:
+     for (int i = 30; i <= 35; i++) {
     leds[i] = CRGB (255, 255, 255);
     FastLED.show();
     }
@@ -411,8 +411,9 @@ switch (tempdisplay){
       Serial.print( https.errorToString(serverhttpCode).c_str() );
       Serial.println("Error on HTTP request");
       Serial.println("Debug or refresh");
-      FastLED.clear();
-    
+      Serial.print(F("Restarting in 5 seconds..."));
+      delay(5000);
+      ESP.restart();    
   } //big else
   https.end(); //End 
 } 

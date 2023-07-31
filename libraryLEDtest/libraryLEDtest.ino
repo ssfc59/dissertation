@@ -4,10 +4,10 @@
 #define LED_TYPE WS2812B    //RGB LED strip type
 CRGB leds[NUM_LEDS];    //Instantiate RGB LED
 
-const int libHumidity = 0;
-const int areaHumidity = 20;
-const int libTemp = 20;
-const int areaTemp = 20;
+const int libHumidity = 25;
+const int areaHumidity = 0;
+const int libTemp = 23;
+const int areaTemp = 21;
 
 void setup() { 
   Serial.begin(115200);
@@ -18,7 +18,7 @@ void loop() {
   int humiditydisplay = libHumidity - areaHumidity;
   Serial.print(F("humiditydisplay = "));
       Serial.print(humiditydisplay);
-      Serial.print(F("°C"));
+      Serial.print(F("°C")); 
       Serial.println();
 
   int tempdisplay = libTemp - areaTemp;
@@ -26,24 +26,29 @@ void loop() {
       Serial.print(tempdisplay);
       Serial.print(F("°C"));
       Serial.println();
+      
 
   if (tempdisplay <= 0) {
     //COOLER INSIDE THE LIBRARY
        for (int i = 92; i <= 102; i++) {
-    leds[i] = CRGB (255, 255, 255);
+    leds[i] = CRGB (0, 200, 255);
+    //0, 200,255 means more orange
     FastLED.show();
+      ESP.restart();
     }
     }
     else if (tempdisplay > 0) {
+      //WARMER
        for (int i = 109; i <= 122; i++) {
-    leds[i] = CRGB (255, 255, 255);
+    leds[i] = CRGB (100, 255, 0);
+    //(20, 255, 0)
     FastLED.show();
     }
       }
 switch (tempdisplay){
     case -5:
     case 5:
-     for (int i = 128; i <= 130; i++) {
+     for (int i = 128; i <= 132; i++) {
     leds[i] = CRGB (255, 255, 255);
     FastLED.show();
     }
@@ -107,7 +112,7 @@ switch (tempdisplay){
 
    case -1:
    case 1:
-     for (int i = 184; i <= 186; i++) {
+     for (int i = 184; i <= 187; i++) {
     leds[i] = CRGB (255, 255, 255);
     FastLED.show();
     }
@@ -131,30 +136,30 @@ switch (tempdisplay){
  if (humiditydisplay <= 0) {
   //LESS HUMID
    for (int i = 13; i <= 19; i++) {
-    leds[i] = CRGB (255, 255, 255);
+    leds[i] = CRGB (200, 200, 255);
     FastLED.show();
     }
  }
    else if (humiditydisplay > 0){
     //MORE HUMID
-     for (int i = 13; i <= 19; i++) {
-    leds[i] = CRGB (255, 255, 255);
+     for (int i = 0; i <= 10; i++) {
+    leds[i] = CRGB (100, 255, 0);
     FastLED.show();
     }
    }
      
     switch (humiditydisplay){
     case -100 ... -45:
-    case 45 ... -100:
-     for (int i = 32; i <= 35; i++) {
-    leds[i] = CRGB (255, 255, 255);
+    case 45 ... 100:
+     for (int i = 30; i <= 35; i++) {
+    leds[i] = CRGB (100, 255, 0 );
     FastLED.show();
     }
     break; //end case light up 45+ 
 
    case -44 ... -40:
    case 40 ... 44:
-     for (int i = 38; i <= 41; i++) {
+     for (int i = 38; i <= 40; i++) {
     leds[i] = CRGB (255, 255, 255);
     FastLED.show();
     }
@@ -171,7 +176,7 @@ switch (tempdisplay){
     
     case -34 ... -30:
     case 30 ... 34:
-     for (int i = 46; i <= 50; i++) {
+     for (int i = 47; i <= 49; i++) {
     leds[i] = CRGB (255, 255, 255);
     FastLED.show();
     }
@@ -179,7 +184,7 @@ switch (tempdisplay){
 
     case -29 ... -25:
     case 25 ... 29:
-     for (int i = 51; i <= 54; i++) {
+     for (int i = 52; i <= 54; i++) {
     leds[i] = CRGB (255, 255, 255);
     FastLED.show();
     }
@@ -196,7 +201,7 @@ switch (tempdisplay){
 
     case -9 ...-5:
     case 5 ... 9:
-     for (int i = 66; i <= 69; i++) {
+     for (int i = 65; i <= 67; i++) {
     leds[i] = CRGB (255, 255, 255);
     FastLED.show();
     }
@@ -212,7 +217,7 @@ switch (tempdisplay){
 
      case -19 ...-15:
     case 15 ... 19:
-     for (int i = 75; i <= 78; i++) {
+     for (int i = 75; i <= 77; i++) {
     leds[i] = CRGB (255, 255, 255);
     FastLED.show();
     }
