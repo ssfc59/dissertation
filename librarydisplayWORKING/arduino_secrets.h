@@ -1,6 +1,6 @@
 //-------------WiFi settings-----------------------------
-const char* ssid = "CE-Hub-Student";
-const char* password = "casa-ce-gagarin-public-service";
+const char* ssid = "iPhone 905";
+const char* password = "roserose";
 
 //-------------API user settings--------------------------
 const char* clientId = "7338eda7ea694cad61cee72f9408af6f";

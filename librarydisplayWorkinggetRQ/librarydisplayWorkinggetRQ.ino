@@ -9,11 +9,7 @@
 #include <WiFiClientSecure.h>
 #include <HTTPClient.h>
 
-#include <FastLED.h>
-#define NUM_LEDS 48     //Number of RGB LED beads
-#define DATA_PIN D8    //The pin for controlling RGB LED
-#define LED_TYPE WS2812B    //RGB LED strip type
-CRGB leds[NUM_LEDS];  
+
 
 // Replace with your network credentials
 const char* ssid = "CE-Hub-Student";

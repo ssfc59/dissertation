@@ -4,10 +4,10 @@
 #define LED_TYPE WS2812B    //RGB LED strip type
 CRGB leds[NUM_LEDS];    //Instantiate RGB LED
 
-const int libHumidity = 25;
-const int areaHumidity = 0;
-const int libTemp = 23;
-const int areaTemp = 21;
+const int libHumidity = 60;
+const int areaHumidity = 90;
+const int libTemp = 24;
+const int areaTemp = 20;
 
 void setup() { 
   Serial.begin(115200);
@@ -31,16 +31,15 @@ void loop() {
   if (tempdisplay <= 0) {
     //COOLER INSIDE THE LIBRARY
        for (int i = 92; i <= 102; i++) {
-    leds[i] = CRGB (0, 200, 255);
+    leds[i] = CRGB (255, 255, 255);
     //0, 200,255 means more orange
     FastLED.show();
-      ESP.restart();
     }
     }
     else if (tempdisplay > 0) {
       //WARMER
        for (int i = 109; i <= 122; i++) {
-    leds[i] = CRGB (100, 255, 0);
+    leds[i] = CRGB (255, 255, 255);
     //(20, 255, 0)
     FastLED.show();
     }
@@ -136,14 +135,14 @@ switch (tempdisplay){
  if (humiditydisplay <= 0) {
   //LESS HUMID
    for (int i = 13; i <= 19; i++) {
-    leds[i] = CRGB (200, 200, 255);
+    leds[i] = CRGB (255, 255, 255);
     FastLED.show();
     }
  }
    else if (humiditydisplay > 0){
     //MORE HUMID
      for (int i = 0; i <= 10; i++) {
-    leds[i] = CRGB (100, 255, 0);
+    leds[i] = CRGB (255, 255, 255);
     FastLED.show();
     }
    }
@@ -239,5 +238,5 @@ switch (tempdisplay){
       Serial.print("Sensor error");
       } //switch humiditydisplay
 
- delay(5000);
+ delay(10000);
 }
