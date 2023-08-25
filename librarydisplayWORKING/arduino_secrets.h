@@ -1,6 +1,6 @@
 //-------------WiFi settings-----------------------------
-const char* ssid = "iPhone 905";
-const char* password = "roserose";
+const char* ssid = "UCL_IoT";
+const char* password = "pyds376Xnt";
 
 //-------------API user settings--------------------------
 const char* clientId = "7338eda7ea694cad61cee72f9408af6f";

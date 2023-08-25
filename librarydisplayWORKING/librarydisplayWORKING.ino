@@ -24,7 +24,7 @@ CRGB leds[NUM_LEDS];    //Instantiate RGB LED
 DHT dht(DHTPIN, DHTTYPE);
 
 //WiFi
-int counter = 0;  
+int counter = 0;
 
 #include "arduino_secrets.h";
 
@@ -37,7 +37,7 @@ void setup()
   FastLED.addLeds<LED_TYPE, DATA_PIN>(leds, NUM_LEDS);
   Serial.println();
   FastLED.clear();
-  
+
   //init DHT
   dht.begin();
   Serial.println("wake device up for 5 seconds");
@@ -49,15 +49,35 @@ void setup()
   Serial.print("Connecting to WiFi ..");
   while (WiFi.status() != WL_CONNECTED) {
     Serial.print('.');
-    for (int i = 0; i < NUM_LEDS; i++) {
-      leds[i] = CRGB (100, 255, 0);
+
+    for (int i = 183; i <= 186; i++) {
+      leds[i] = CRGB (255, 255, 255);
       FastLED.show();
     }
-   counter++;
-       delay(1000);
-   if(counter>=60){ //60 seconds timeout - reset board
-   Serial.print(F("failed to connect after 60 seconds, reset board"));
-   ESP.restart();
+
+    for (int i = 92; i <= 102; i++) {
+      leds[i] = CRGB (255, 255, 255);
+      FastLED.show();
+    }
+
+    //1 cooler
+    //10 more
+
+    for (int i = 1; i <= 10; i++) {
+      leds[i] = CRGB (255, 255, 255);
+      FastLED.show();
+    }
+
+    for (int i = 70; i <= 72; i++) {
+      leds[i] = CRGB (255, 255, 255);
+      FastLED.show();
+    }
+
+    counter++;
+    delay(1000);
+    if (counter >= 300) { //60 seconds timeout - reset board
+      Serial.print(F("failed to connect after 60 seconds, reset board"));
+      ESP.restart();
     }
   }
   FastLED.clear();
@@ -68,8 +88,8 @@ void setup()
 }
 
 void loop () {
-    /////////////////////
-   // 1. Get the time //
+  /////////////////////
+  // 1. Get the time //
   /////////////////////
 
   int currentHour = myTimezone.hour();
@@ -77,8 +97,8 @@ void loop () {
   Serial.print(currentHour);
   Serial.println(":00");
 
-    /////////////////////////////////
-   // 2. Make secured Get Request //
+  /////////////////////////////////
+  // 2. Make secured Get Request //
   /////////////////////////////////
 
 
@@ -102,6 +122,8 @@ void loop () {
       delay(5000);
       ESP.restart(); //restart ESP32
     }
+
+
     else {
       String payload = https.getString();
 
@@ -130,8 +152,8 @@ void loop () {
       Serial.print(HeatIndex);
       Serial.println();
 
-        //////////////////////////
-       // 3. Obtain DHT values //
+      //////////////////////////
+      // 3. Obtain DHT values //
       //////////////////////////
 
       // Reading temperature, humidity and heat index
@@ -160,8 +182,8 @@ void loop () {
       Serial.print(F("°C "));
       Serial.println();
 
-        //////////////////////////////////////
-       // 4. Compare sensor and API values //
+      //////////////////////////////////////
+      // 4. Compare sensor and API values //
       //////////////////////////////////////
 
       int tempdisplay = t - Temperature;
@@ -176,10 +198,10 @@ void loop () {
       Serial.print(F("°C"));
       Serial.println();
 
-       ////////////////////////////////////////////
+      ////////////////////////////////////////////
       //  5. Light up corresponding LED lights  //
-     ////////////////////////////////////////////
-      
+      ////////////////////////////////////////////
+
       FastLED.clear();
       if (tempdisplay <= 0) {
         //COOLER INSIDE THE LIBRARY
@@ -388,8 +410,8 @@ void loop () {
           Serial.print("Sensor error");
       } //switch humiditydisplay
 
-        //////////////////////////////////////////
-       //  6. send all values to Initial State //
+      //////////////////////////////////////////
+      //  6. send all values to Initial State //
       //////////////////////////////////////////
 
       String url = "https://groker.init.st/api/events?accessKey=";
@@ -408,6 +430,10 @@ void loop () {
       url += Humidity;
       url += "&outsideHeatIndex=";
       url += HeatIndex;
+      url += "&tempDiff=";
+      url += tempdisplay;
+      url += "&humidityDiff=";
+      url += humiditydisplay;
 
 
       //sent values to initial state via url
@@ -438,12 +464,12 @@ void loop () {
     /*end of sending to initial state*/
     Serial.println("request URL ended");
     Serial.println("HTTP request ended");
-    Serial.println("waiting 2 min");
+    Serial.println("waiting 5 min");
     // https.end();
-    delay(120000);
+    delay(300000);
     //delay for HTTPS request....
   } // if start hour=>, <end hour
   else {
-     FastLED.clear(); //now library closing hours, do nothing until library opens again
-    }
+    FastLED.clear(); //now library closing hours, do nothing until library opens again
+  }
 }
