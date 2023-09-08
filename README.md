@@ -1,6 +1,9 @@
 # Warm Reminders in Cool Spaces: Real-time monitoring of the thermal environment in Stratford Library with an integrated sensing and display device
 
 ## Overview
+
+![image](https://github.com/ssfc59/dissertation/assets/114293506/1d4e8da8-9b59-4a22-a1a1-ab6bcda99a06)
+
 This "Warm Reminder" is a device that both senses and shows the real-time comparative temperature and humidity inside Stratford Library, a designated Tier 1 Cool Space by the Greater London Authority, and the surrounding area. It also sends the exact values recorded by the device over time to a data visualisation platform.
 
  As part of a collaboration with Newham Council and Stratford Library staff, this device was deployed in the library to inform both library staff and visitors of the facility's cooling efficacy and investigate its adherence to the 2023 Cool space criteria of having a "cooler indoor temperature than outdoors" during hot weather.
@@ -22,11 +25,27 @@ Every 3 minutes from 9am-8pm, Stratford Library’s opening hours, the device co
 ## Device Fabrication
 My device incorporates the visual features of a book, including its shape, material, proportion, and textual display format in its design as a reference to its placement in Stratford Library.
 
-I used boxes.py, Fusion360, and Adobe Illustrator to make a laser cut template of a book shaped box with a curved side, with cut out stencilled text of the value displays onto its front, and cut it out of black acrylic. I then attached the LED strip to the back of each display row. Lastly, I designed and laser cut a paper overlay with permanent parts of the sentence display and placed it on the device's front face to conceal the cutouts, only allowing the LED-lit values and descriptors to be visible.
+I used boxes.py, Fusion360, and Adobe Illustrator to make a laser cut template of a book shaped box with a curved side, with cut out stencilled text of the value displays onto its front, and cut it out of black acrylic. 
+
+![image](https://github.com/ssfc59/dissertation/assets/114293506/a07bb29a-c4c4-4717-a4d6-c9e9030a4df6)
+![image](https://github.com/ssfc59/dissertation/assets/114293506/759ab18f-8b37-40d8-bef8-4715ece600e1)
+
+I then attached the LED strip to the back of each display row.
+
+![image](https://github.com/ssfc59/dissertation/assets/114293506/d77ad8de-451d-4161-9713-f613c7ae1a68)
+
+Lastly, I designed and laser cut a paper overlay with permanent parts of the sentence display and placed it on the device's front face to conceal the cutouts, only allowing the LED-lit values and descriptors to be visible.
+
+![image](https://github.com/ssfc59/dissertation/assets/114293506/aabf1907-3425-4a99-b8bc-e1fee5e3c0c8)
+![image](https://github.com/ssfc59/dissertation/assets/114293506/4d6bf1b3-457a-41f8-857c-0e4c8e75eed2)
+
+I also laser cut 2 vertically lined pieces of white paper and placed them on the sides, making it resemble the pages of a book between book covers.
+
+![image](https://github.com/ssfc59/dissertation/assets/114293506/08d5a813-1c18-4a40-b3a9-f44d16c82002)
 
 When the device is working, the display shows a sentence that compares the real-time temperature and humidity values inside Stratford Library to that outside. 
 
-I also laser cut 2 vertically lined pieces of white paper and placed them on the sides, making it resemble the pages of a book between book covers.
+![image](https://github.com/ssfc59/dissertation/assets/114293506/7572d617-b346-4f9d-b744-59d562b0a4cc)
 
 
 ## Code Components
