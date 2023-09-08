@@ -2,7 +2,10 @@
 
 ## Overview
 
-![image](https://github.com/ssfc59/dissertation/assets/114293506/1d4e8da8-9b59-4a22-a1a1-ab6bcda99a06)
+![image](https://github.com/ssfc59/dissertation/assets/114293506/42fe1c9b-c6e6-480d-82f4-f696fb539e88)
+![image](https://github.com/ssfc59/dissertation/assets/114293506/bbdb646f-a900-4213-85d3-9c15a9342178)
+![image](https://github.com/ssfc59/dissertation/assets/114293506/eda450a7-a2c0-4460-a067-1a921de291c1)
+
 
 This "Warm Reminder" is a device that both senses and shows the real-time comparative temperature and humidity inside Stratford Library, a designated Tier 1 Cool Space by the Greater London Authority, and the surrounding area. It also sends the exact values recorded by the device over time to a data visualisation platform.
 
